@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FAD7A0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navigation {
+            position: fixed;
+            top: 20px;
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .navigation ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navigation ul li {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .navigation ul li:hover {
+            color: #E67E22;
+        }
+
+        .navigation ul li.active {
+            color: #E67E22;
+        }
+
+        .content {
+            text-align: center;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .stopwatch, .timer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .stopwatch-display {
+            font-size: 8rem;
+            font-weight: bold;
+            color: #2F2F2F;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stopwatch-display .milliseconds {
+            font-size: 2rem;
+        }
+
+        .stopwatch-buttons, .timer-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .stopwatch-buttons button, .timer-buttons button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 30px;
+            background-color: #FF5733;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .stopwatch-buttons button:hover, .timer-buttons button:hover {
+            background-color: #f2780c;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .stopwatch-buttons button:active, .timer-buttons button:active {
+            background-color: #D35400;
+            transform: scale(0.95);
+        }
+
+        .theme-dropdown {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .theme-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .theme-button:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-options {
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-options button {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .blue {
+            background-color: #AEC6CF;
+        }
+
+        .green {
+            background-color: #B5EAD7;
+        }
+
+        .yellow {
+            background-color: #FFFACD;
+        }
+
+        .pink {
+            background-color: #FFB6C1;
+        }
+
+        .theme-options.show button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .theme-options.show {
+            display: flex;
+        }
+
+        .theme-options button:nth-child(1) {
+            animation: bubbleUp 0.4s 0s forwards;
+        }
+
+        .theme-options button:nth-child(2) {
+            animation: bubbleUp 0.4s 0.1s forwards;
+        }
+
+        .theme-options button:nth-child(3) {
+            animation: bubbleUp 0.4s 0.2s forwards;
+        }
+
+        .theme-options button:nth-child(4) {
+            animation: bubbleUp 0.4s 0.3s forwards;
+        }
+
+        @keyframes bubbleUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navigation">
+        <ul>
+            <li class="active" onclick="showSection('main-menu')">Main Menu</li>
+            <li onclick="showSection('timer')">Timer</li>
+            <li onclick="showSection('stopwatch')">Stopwatch</li>
+            <li onclick="showSection('calendar')">Calendar</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div id="main-menu">
+            <h1>Welcome to Timer<span style='color: #543215;'>Desk</span></h1>
+            <p>This is the landing page of the website.</p>
+        </div>
+
+        <div id="timer" style="display: none;">
+            <div class="timer">
+                <h1>Timer</h1>
+                <p>The timer will be added here.</p>
+            </div>
+        </div>
+
+        <div id="stopwatch" style="display: none;">
+            <div class="stopwatch">
+                <div class="stopwatch-display">
+                    <span class="hours">00</span>:<span class="minutes">00</span>:<span class="seconds">00</span>:<span class="milliseconds">00</span>
+                </div>
+                <div class="stopwatch-buttons">
+                    <button onclick="startStop()">Start</button>
+                    <button onclick="resetStopwatch()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="calendar" style="display: none;">
+            <h1>Calendar</h1>
+            <p>The calendar will be added here.</p>
+        </div>
+    </div>
+
+    <div class="theme-dropdown">
+        <button class="theme-button" onclick="toggleThemeDropdown()">🍃</button>
+        <div class="theme-options">
+            <button class="blue" onclick="changeTheme('#AEC6CF')"></button>
+            <button class="green" onclick="changeTheme('#B5EAD7')"></button>
+            <button class="yellow" onclick="changeTheme('#FFFACD')"></button>
+            <button class="pink" onclick="changeTheme('#FFB6C1')"></button>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content > div');
+            sections.forEach(section => section.style.display = 'none');
+            document.getElementById(sectionId).style.display = 'flex';
+
+            const navItems = document.querySelectorAll('.navigation ul li');
+            navItems.forEach(item => item.classList.remove('active'));
+            const activeNavItem = document.querySelector(`.navigation ul li[onclick="showSection('${sectionId}')"]`);
+            if (activeNavItem) activeNavItem.classList.add('active');
+        }
+
+        function changeTheme(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        function toggleThemeDropdown() {
+            const options = document.querySelector('.theme-options');
+            if (options.style.display === 'flex') {
+                options.style.display = 'none';
+            } else {
+                options.style.display = 'flex';
+            }
+        }
+
+        let isRunning = false;
+        let startTime = 0;
+        let elapsedTime = 0;
+        let intervalId;
+
+        function startStop() {
+            const button = document.querySelector(".stopwatch-buttons button:first-child");
+            if (isRunning) {
+                clearInterval(intervalId);
+                elapsedTime += Date.now() - startTime;
+                button.textContent = "Start";
+            } else {
+                startTime = Date.now();
+                intervalId = setInterval(updateDisplay, 10);
+                button.textContent = "Stop";
+            }
+            isRunning = !isRunning;
+        }
+
+        function resetStopwatch() {
+            clearInterval(intervalId);
+            isRunning = false;
+            startTime = 0;
+            elapsedTime = 0;
+            document.querySelector(".stopwatch-display .hours").textContent = "00";
+            document.querySelector(".stopwatch-display .minutes").textContent = "00";
+            document.querySelector(".stopwatch-display .seconds").textContent = "00";
+            document.querySelector(".stopwatch-display .milliseconds").textContent = "00";
+            document.querySelector(".stopwatch-buttons button:first-child").textContent = "Start";
+        }
+
+        function updateDisplay() {
+            const totalMilliseconds = elapsedTime + (Date.now() - startTime);
+            const hours = Math.floor(totalMilliseconds / 3600000);
+            const minutes = Math.floor((totalMilliseconds % 3600000) / 60000);
+            const seconds = Math.floor((totalMilliseconds % 60000) / 1000);
+            const milliseconds = Math.floor((totalMilliseconds % 1000) / 10);
+
+            document.querySelector(".stopwatch-display .hours").textContent = String(hours).padStart(2, "0");
+            document.querySelector(".stopwatch-display .minutes").textContent = String(minutes).padStart(2, "0");
+            document.querySelector(".stopwatch-display .seconds").textContent = String(seconds).padStart(2, "0");
+            document.querySelector(".stopwatch-display .milliseconds").textContent = String(milliseconds).padStart(2, "0");
+        }
+    </script>
+</body>
+</html>
